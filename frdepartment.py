@@ -15,6 +15,6 @@ parser.add_option("-l",  "--litteral",   help="print the full litteral name of t
 parser.add_option("-r",  "--region",     help="print the full-name of the region witch the department is bellonging to", default=False, action="store_true")
 parser.add_option("--list",              help="show a table of the departments with theres codes and exit",              default=False, action="store_true", dest="verbose")
 parser.add_option("-v",  "--verbose",    help="print the whole information on the output (it's like -nalr)",             default=False, action="store_true", dest="verbose")
-parser.add_option("--vv",                help="print the whole information in a litteral sentence ",                     default=False, action="store_true", dest="verbose")
+parser.add_option("--vv",                help="print the whole information in a litteral sentence",                     default=False, action="store_true", dest="verbose")
 
 (options, args) = parser.parse_args()
