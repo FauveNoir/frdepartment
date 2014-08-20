@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import cli.app
+import cli.app # probably not necessary
 import argparse
 from optparse import OptionParser
+
+progname = "frdepartment"
 
 usage = "usage: %prog [ [-n] [-a] [-l] [-r] ( NAME | NUMERICAL_CODE | ALPHBETIC_CODE ) | --list | -v | -vv ]"
 parser = OptionParser(usage=usage, version="%prog 0.1")
