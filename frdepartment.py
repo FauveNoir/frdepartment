@@ -120,11 +120,11 @@ parser.add_option("--vv",                help="print the whole information in a 
 (options, args) = parser.parse_args()
 
 
-def askedDepartment():
+def askedDepartment(nuberOrCodeToEvaluate):
 	for row in coresp:
 		for cell in [row[0], row[1], row[2]]:
-			if cell == sys.argv[2]:
+			if cell == nuberOrCodeToEvaluate:
 				return row
 
 if sys.argv[1] != ['-h', '-v', '--vv', '--list']:
-	print askedDepartment()
+	print askedDepartment(sys.argv[2])
