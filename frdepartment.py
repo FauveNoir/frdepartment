@@ -9,16 +9,10 @@ import argparse
 from termcolor import colored
 
 class bcolors:
-	HEADER  = '\033[95m'
-	OKBLUE  = '\033[94m'
-	OKGREEN = '\033[92m'
 	WARNING = '\033[01;31m' # Red
-	FAIL    = '\033[91m'
 	ENDC    = '\033[0m'
 	MAIN    = '\033[1m'
-	ADEP    = '\033[1m' # Alphabetic code of department in red bold
-	NDEP    = '\033[32m' # numeric code of department in green
-	REG     = '\033[1m' # region in orange
+	ADEP    = '\033[01;31m' # Alphabetic code of department in red bold
 	LITN    = '\033[1m' # fullname of department in white bold
 
 coresp = [
@@ -211,20 +205,20 @@ else: # listing is for printing a complete table of correspondance
 		if options.vverbose:
 
 			if findedDepratment[4] == "metropolitan-department":
-				print("Departement de {4}{0} en {1} de codes {2} (Réformé) et {3} (Insee).".format(bcolors.LITN + findedDepratment[0] + bcolors.ENDC, findedDepratment[3], findedDepratment[2], findedDepratment[1], linguisticConjonction))
+				print("Departement de {4}{0} en {1} de codes {2} (Réformé) et {3} (Insee).".format(bcolors.LITN + findedDepratment[0] + bcolors.ENDC, findedDepratment[3], bcolors.ADEP + findedDepratment[2] + bcolors.ENDC, findedDepratment[1], linguisticConjonction))
 
 			if findedDepratment[4] == "overseas-departments":
-				print("Région et département d’Outre-mer de {4}{0} de codes {2} (ISO 3166-2:FR) et {3} (Insee).".format(bcolors.LITN + findedDepratment[0] + bcolors.ENDC, findedDepratment[3], findedDepratment[2], findedDepratment[1], linguisticConjonction))
+				print("Région et département d’Outre-mer de {4}{0} de codes {2} (ISO 3166-2:FR) et {3} (Insee).".format(bcolors.LITN + findedDepratment[0] + bcolors.ENDC, findedDepratment[3], bcolors.ADEP + findedDepratment[2] + bcolors.ENDC, findedDepratment[1], linguisticConjonction))
 				if findedDepratment[5]:
 					print "voir aussi", findedDepratment[5] + "."
 
 			if findedDepratment[4] == "overseas-collectivity":
-				print("Territoire monodepartemental d’Outre-mer de {4}{0} de codes {2} (ISO 3166-2:FR) et {3} (Insee).".format(bcolors.LITN + findedDepratment[0] + bcolors.ENDC, findedDepratment[3], findedDepratment[2], findedDepratment[1], linguisticConjonction))
+				print("Territoire monodepartemental d’Outre-mer de {4}{0} de codes {2} (ISO 3166-2:FR) et {3} (Insee).".format(bcolors.LITN + findedDepratment[0] + bcolors.ENDC, findedDepratment[3], bcolors.ADEP + findedDepratment[2] + bcolors.ENDC, findedDepratment[1], linguisticConjonction))
 				if findedDepratment[5]:
 					print "voir aussi", findedDepratment[5] + "."
 
 			if findedDepratment[4] == "dependency":
-				print("Dépendance de {4}{0} de codes {2} (ISO 3166-2:FR) et {3} (Insee).".format(bcolors.LITN + findedDepratment[0] + bcolors.ENDC, findedDepratment[3], findedDepratment[2], findedDepratment[1], linguisticConjonction))
+				print("Dépendance de {4}{0} de codes {2} (ISO 3166-2:FR) et {3} (Insee).".format(bcolors.LITN + findedDepratment[0] + bcolors.ENDC, findedDepratment[3], bcolors.ADEP + findedDepratment[2] + bcolors.ENDC, findedDepratment[1], linguisticConjonction))
 				if findedDepratment[5]:
 					print "voir aussi", findedDepratment[5] + "."
 
@@ -247,7 +241,7 @@ else: # listing is for printing a complete table of correspondance
 				print findedDepratment[3],
 
 			if options.alpha:
-				print findedDepratment[2],
+				print bcolors.ADEP + findedDepratment[2] + bcolors.ENDC,
 			if options.number:
 				print findedDepratment[1],
 	else:
