@@ -142,7 +142,13 @@ if options.listing == False: # listing is for printing a complete table of corre
 
 	if findedDepratment:
 		if options.vverbose:
-			print("Departement de {0} en {1} de codes {2} (Réformé) et {3} (Insee).".format(findedDepratment[0], findedDepratment[3], findedDepratment[2], findedDepratment[1]))
+			if findedDepratment[0][0] in ("A", "U", "E", "I", "Y", "O"): #This test is for french syntax. Because in french languages, words begining by a voyel have to be preceded with “l’” and words  begining with a console, wave to be preced by noting.
+				linguisticConjonction = "l’"
+			else: # Other cases is a console.
+				linguisticConjonction = ""
+
+			print("Departement de {4}{0} en {1} de codes {2} (Réformé) et {3} (Insee).".format(findedDepratment[0], findedDepratment[3], findedDepratment[2], findedDepratment[1], linguisticConjonction))
+
 		else:
 			if options.lit:
 				print findedDepratment[0],
