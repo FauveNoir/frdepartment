@@ -4,6 +4,7 @@
 import cli.app # probably not necessary
 import sys
 from optparse import OptionParser
+from tabulate import tabulate
 import argparse
 
 coresp = [
@@ -152,8 +153,17 @@ if options.verbose:
 	options.reg    = True
 
 
+if options.listing: # listing is for printing a complete table of correspondance
+	print "Test"
+	tableOfMetropolitanDepartment = []
 
-if options.listing == False: # listing is for printing a complete table of correspondance
+	for row in coresp:
+		if row[4] == "metropolitan-department":
+			tableOfMetropolitanDepartment.append([ row[0].decode('utf-8'), row[2].decode('utf-8'), row[1].decode('utf-8'), row[3].decode('utf-8') ])
+
+	print tabulate(tableOfMetropolitanDepartment, headers=["Département".decode('utf-8'), "Code alphabétique".decode('utf-8'), "Code numérique".decode('utf-8'), "Région".decode('utf-8')])
+
+else: # listing is for printing a complete table of correspondance
 	findedDepratment = askedDepartment(sys.argv[2]) # evaluating witch departement the user is searching and import on findedDepartment the whol information about it to be treated.
 
 	if findedDepratment:
