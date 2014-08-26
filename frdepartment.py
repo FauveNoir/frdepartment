@@ -3,7 +3,6 @@
 
 import cli.app # probably not necessary
 import sys
-import argparse
 from optparse import OptionParser
 
 coresp = [
