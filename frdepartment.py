@@ -9,13 +9,17 @@ import argparse
 from termcolor import colored
 
 class bcolors:
-	HEADER = '\033[95m'
-	OKBLUE = '\033[94m'
+	HEADER  = '\033[95m'
+	OKBLUE  = '\033[94m'
 	OKGREEN = '\033[92m'
-	WARNING = '\033[01;31m'
-	FAIL = '\033[91m'
-	ENDC = '\033[0m'
-	MAIN = '\033[1m'
+	WARNING = '\033[01;31m' # Red
+	FAIL    = '\033[91m'
+	ENDC    = '\033[0m'
+	MAIN    = '\033[1m'
+	ADEP    = '\033[1m' # Alphabetic code of department in red bold
+	NDEP    = '\033[32m' # numeric code of department in green
+	REG     = '\033[1m' # region in orange
+	LITN    = '\033[1m' # fullname of department in white bold
 
 coresp = [
 ["Ain", "01", "AN","Rhône-Alpes","metropolitan-department"],
@@ -187,7 +191,7 @@ if options.listing: # listing is for printing a complete table of correspondance
 	print tabulate(tableOfDpendency, headers=["Département".decode('utf-8'), "Code alphabétique".decode('utf-8'), "Code numérique".decode('utf-8') ])
 
 	tableOfOverseasCollectivity = []
-	print bcolors.MAIN + "\n\nTerritoires mono-départementaaux d’outre-mer\n" + bcolors.ENDC
+	print bcolors.MAIN + "\n\nTerritoires mono-départementaux d’outre-mer\n" + bcolors.ENDC
 	for row in coresp:
 		if row[4] == "overseas-collectivity":
 			tableOfOverseasCollectivity.append([ row[0].decode('utf-8'), row[2].decode('utf-8'), row[1].decode('utf-8') ])
@@ -207,15 +211,20 @@ else: # listing is for printing a complete table of correspondance
 		if options.vverbose:
 
 			if findedDepratment[4] == "metropolitan-department":
-				print("Departement de {4}{0} en {1} de codes {2} (Réformé) et {3} (Insee).".format(findedDepratment[0], findedDepratment[3], findedDepratment[2], findedDepratment[1], linguisticConjonction))
+				print("Departement de {4}{0} en {1} de codes {2} (Réformé) et {3} (Insee).".format(bcolors.LITN + findedDepratment[0] + bcolors.ENDC, findedDepratment[3], findedDepratment[2], findedDepratment[1], linguisticConjonction))
 
 			if findedDepratment[4] == "overseas-departments":
-				print("Région et département d’Outre-mer de {4}{0} de codes {2} (ISO 3166-2:FR) et {3} (Insee).".format(findedDepratment[0], findedDepratment[3], findedDepratment[2], findedDepratment[1], linguisticConjonction))
+				print("Région et département d’Outre-mer de {4}{0} de codes {2} (ISO 3166-2:FR) et {3} (Insee).".format(bcolors.LITN + findedDepratment[0] + bcolors.ENDC, findedDepratment[3], findedDepratment[2], findedDepratment[1], linguisticConjonction))
+				if findedDepratment[5]:
+					print "voir aussi", findedDepratment[5] + "."
+
+			if findedDepratment[4] == "overseas-collectivity":
+				print("Territoire monodepartemental d’Outre-mer de {4}{0} de codes {2} (ISO 3166-2:FR) et {3} (Insee).".format(bcolors.LITN + findedDepratment[0] + bcolors.ENDC, findedDepratment[3], findedDepratment[2], findedDepratment[1], linguisticConjonction))
 				if findedDepratment[5]:
 					print "voir aussi", findedDepratment[5] + "."
 
 			if findedDepratment[4] == "dependency":
-				print("Dépendance de {4}{0} de codes {2} (ISO 3166-2:FR) et {3} (Insee).".format(findedDepratment[0], findedDepratment[3], findedDepratment[2], findedDepratment[1], linguisticConjonction))
+				print("Dépendance de {4}{0} de codes {2} (ISO 3166-2:FR) et {3} (Insee).".format(bcolors.LITN + findedDepratment[0] + bcolors.ENDC, findedDepratment[3], findedDepratment[2], findedDepratment[1], linguisticConjonction))
 				if findedDepratment[5]:
 					print "voir aussi", findedDepratment[5] + "."
 
@@ -233,7 +242,7 @@ else: # listing is for printing a complete table of correspondance
 					print "une dépendance non-régionnalisé."
 
 			if options.lit:
-				print findedDepratment[0],
+				print bcolors.LITN + findedDepratment[0] + bcolors.ENDC,
 			if options.reg and findedDepratment[4] == "metropolitan-department":
 				print findedDepratment[3],
 
@@ -242,5 +251,5 @@ else: # listing is for printing a complete table of correspondance
 			if options.number:
 				print findedDepratment[1],
 	else:
-		print("No department match the name or code \"{0}\".".format(sys.argv[2]))
+		print bcolors.WARNING + "*" + bcolors.ENDC,"No department match the name or code \"{0}\".".format(sys.argv[2])
 		sys.exit(1)
