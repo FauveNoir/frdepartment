@@ -126,6 +126,7 @@ def askedDepartment(nuberOrCodeToEvaluate):
 		for cell in [row[0], row[1], row[2]]:
 			if cell == nuberOrCodeToEvaluate:
 				return row
+	return False
 
 # teling the program with verbose is like telling it with -narl
 if options.verbose:
@@ -139,14 +140,18 @@ if options.verbose:
 if options.listing == False: # listing is for printing a complete table of correspondance
 	findedDepratment = askedDepartment(sys.argv[2]) # evaluating witch departement the user is searching and import on findedDepartment the whol information about it to be treated.
 
-	if options.vverbose:
-		print "Departement de", findedDepratment[0], "en", findedDepratment[3], "de code", findedDepratment[2], "et", findedDepratment[1], "(Insee)."
+	if findedDepratment:
+		if options.vverbose:
+			print("Departement de {0} en {1} de codes {2} (Réformé) et {3} (Insee).".format(findedDepratment[0], findedDepratment[3], findedDepratment[2], findedDepratment[1]))
+		else:
+			if options.lit:
+				print findedDepratment[0],
+			if options.reg:
+				print findedDepratment[3],
+			if options.alpha:
+				print findedDepratment[2],
+			if options.number:
+				print findedDepratment[1],
 	else:
-		if options.lit:
-			print findedDepratment[0],
-		if options.reg:
-			print findedDepratment[3],
-		if options.alpha:
-			print findedDepratment[2],
-		if options.number:
-			print findedDepratment[1],
+		print("No department match the name or code \"{0}\".".format(sys.argv[2]))
+		sys.exit(1)
