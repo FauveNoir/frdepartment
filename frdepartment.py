@@ -6,6 +6,16 @@ import sys
 from optparse import OptionParser
 from tabulate import tabulate
 import argparse
+from termcolor import colored
+
+class bcolors:
+	HEADER = '\033[95m'
+	OKBLUE = '\033[94m'
+	OKGREEN = '\033[92m'
+	WARNING = '\033[01;31m'
+	FAIL = '\033[91m'
+	ENDC = '\033[0m'
+	MAIN = '\033[1m'
 
 coresp = [
 ["Ain", "01", "AN","Rhône-Alpes","metropolitan-department"],
@@ -154,14 +164,36 @@ if options.verbose:
 
 
 if options.listing: # listing is for printing a complete table of correspondance
-	print "Test"
-	tableOfMetropolitanDepartment = []
 
+	tableOfMetropolitanDepartment = []
+	print bcolors.MAIN + "Départements métropolitains\n" + bcolors.ENDC
 	for row in coresp:
 		if row[4] == "metropolitan-department":
 			tableOfMetropolitanDepartment.append([ row[0].decode('utf-8'), row[2].decode('utf-8'), row[1].decode('utf-8'), row[3].decode('utf-8') ])
-
 	print tabulate(tableOfMetropolitanDepartment, headers=["Département".decode('utf-8'), "Code alphabétique".decode('utf-8'), "Code numérique".decode('utf-8'), "Région".decode('utf-8')])
+
+	tableOfOverseasDepartment = []
+	print bcolors.MAIN + "\n\nRégions mono-départementales d’outre-mer\n" + bcolors.ENDC
+	for row in coresp:
+		if row[4] == "overseas-departments":
+			tableOfOverseasDepartment.append([ row[0].decode('utf-8'), row[2].decode('utf-8'), row[1].decode('utf-8') ])
+	print tabulate(tableOfOverseasDepartment, headers=["Département".decode('utf-8'), "Code alphabétique".decode('utf-8'), "Code numérique".decode('utf-8') ])
+
+	tableOfDpendency = []
+	print bcolors.MAIN + "\n\nDépendances\n" + bcolors.ENDC
+	for row in coresp:
+		if row[4] == "dependency":
+			tableOfDpendency.append([ row[0].decode('utf-8'), row[2].decode('utf-8'), row[1].decode('utf-8') ])
+	print tabulate(tableOfDpendency, headers=["Département".decode('utf-8'), "Code alphabétique".decode('utf-8'), "Code numérique".decode('utf-8') ])
+
+	tableOfOverseasCollectivity = []
+	print bcolors.MAIN + "\n\nTerritoires mono-départementaaux d’outre-mer\n" + bcolors.ENDC
+	for row in coresp:
+		if row[4] == "overseas-collectivity":
+			tableOfOverseasCollectivity.append([ row[0].decode('utf-8'), row[2].decode('utf-8'), row[1].decode('utf-8') ])
+	print tabulate(tableOfOverseasCollectivity, headers=["Département".decode('utf-8'), "Code alphabétique".decode('utf-8'), "Code numérique".decode('utf-8') ])
+
+
 
 else: # listing is for printing a complete table of correspondance
 	findedDepratment = askedDepartment(sys.argv[2]) # evaluating witch departement the user is searching and import on findedDepartment the whol information about it to be treated.
@@ -189,7 +221,7 @@ else: # listing is for printing a complete table of correspondance
 
 		else:
 			if options.reg and findedDepratment[4] != "metropolitan-department": # For overseas departement, terretiories and dependencies witch not bellong to any region.
-				print("* Le térritoire de {0}{1} est".format(linguisticConjonction, findedDepratment[0]) ),
+				print bcolors.WARNING + "*" + bcolors.ENDC, "Le térritoire de {0}{1} est".format(linguisticConjonction, findedDepratment[0]),
 
 				if findedDepratment[4] == "overseas-departments":
 					print "une région mono-départementale d’outre mer."
