@@ -4,6 +4,7 @@
 import cli.app # probably not necessary
 import sys
 from optparse import OptionParser
+import argparse
 
 coresp = [
 ["Ain", "01", "AN","Rhône-Alpes","regularDepartment"],
@@ -108,22 +109,44 @@ usage = "usage: %prog [ [-n] [-a] [-l] [-r] ( NAME | NUMERICAL_CODE | ALPHBETIC_
 parser = OptionParser(usage=usage, version="%prog 0.1")
 
 
-parser.add_option("-n",  "--number",     help="print the number code of the department",                                 default=False, action="store_true")
-parser.add_option("-a",  "--alphabetic", help="print the two-letters reformed code of the department",                   default=False, action="store_true")
-parser.add_option("-l",  "--litteral",   help="print the full litteral name of the department",                          default=False, action="store_true")
-parser.add_option("-r",  "--region",     help="print the full-name of the region witch the department is bellonging to", default=False, action="store_true")
-parser.add_option("--list",              help="show a table of the departments with theres codes and exit",              default=False, action="store_true", dest="verbose")
+parser.add_option("-n",  "--number",     help="print the number code of the department",                                 default=False, action="store_true", dest="number")
+parser.add_option("-a",  "--alphabetic", help="print the two-letters reformed code of the department",                   default=False, action="store_true", dest="alpha")
+parser.add_option("-l",  "--litteral",   help="print the full litteral name of the department",                          default=False, action="store_true", dest="lit")
+parser.add_option("-r",  "--region",     help="print the full-name of the region witch the department is bellonging to", default=False, action="store_true", dest="reg")
+parser.add_option("--list",              help="show a table of the departments with theres codes and exit",              default=False, action="store_true", dest="listing")
 parser.add_option("-v",  "--verbose",    help="print the whole information on the output (it's like -nalr)",             default=False, action="store_true", dest="verbose")
-parser.add_option("--vv",                help="print the whole information in a litteral sentence",                      default=False, action="store_true", dest="verbose")
+parser.add_option("--vv",                help="print the whole information in a litteral sentence",                      default=False, action="store_true", dest="vverbose")
 
 (options, args) = parser.parse_args()
 
 
+# Determinate the department the user search from the numeric code, the alphabetic code and the full name as listed in  coresp[]
 def askedDepartment(nuberOrCodeToEvaluate):
 	for row in coresp:
 		for cell in [row[0], row[1], row[2]]:
 			if cell == nuberOrCodeToEvaluate:
 				return row
 
-if sys.argv[1] != ['-h', '-v', '--vv', '--list']:
-	print askedDepartment(sys.argv[2])
+# teling the program with verbose is like telling it with -narl
+if options.verbose:
+	options.number = True
+	options.lit    = True
+	options.alpha  = True
+	options.reg    = True
+
+
+
+if options.listing == False: # listing is for printing a complete table of correspondance
+	findedDepratment = askedDepartment(sys.argv[2]) # evaluating witch departement the user is searching and import on findedDepartment the whol information about it to be treated.
+
+	if options.vverbose:
+		print "Departement de", findedDepratment[0], "en", findedDepratment[3], "de code", findedDepratment[2], "et", findedDepratment[1], "(Insee)."
+	else:
+		if options.lit:
+			print findedDepratment[0],
+		if options.reg:
+			print findedDepratment[3],
+		if options.alpha:
+			print findedDepratment[2],
+		if options.number:
+			print findedDepratment[1],
