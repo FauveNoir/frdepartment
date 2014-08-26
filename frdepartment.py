@@ -118,7 +118,6 @@ parser.add_option("-v",  "--verbose",    help="print the whole information on th
 parser.add_option("--vv",                help="print the whole information in a litteral sentence",                      default=False, action="store_true", dest="verbose")
 
 (options, args) = parser.parse_args()
-#departmentRequested = parser.parse_args("-n","--number")
 
 
 def askedDepartment(nuberOrCodeToEvaluate):
@@ -126,9 +125,6 @@ def askedDepartment(nuberOrCodeToEvaluate):
 		for cell in [row[0], row[1], row[2]]:
 			if cell == nuberOrCodeToEvaluate:
 				return row
-
-#if departmentRequested:
-	#print departmentRequested
 
 if sys.argv[1] != ['-h', '-v', '--vv', '--list']:
 	print askedDepartment(sys.argv[2])
