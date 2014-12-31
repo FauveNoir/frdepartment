@@ -154,6 +154,17 @@ def askedDepartment(nuberOrCodeToEvaluate):
 				return row
 	return False
 
+def codeOrNumberOrLitt(aDepartment,numberOrCode):
+        if   numberOrCode in [aDepartment[0], aDepartment[1]]:
+                return 0
+        elif aDepartment[2] == numberOrCode:
+                return 1
+
+
+if len(sys.argv) < 2:
+        help
+	sys.exit(1)
+
 # teling the program with verbose is like telling it with -narl
 if options.verbose:
 	options.number = True
@@ -195,7 +206,13 @@ if options.listing: # listing is for printing a complete table of correspondance
 
 
 else: # listing is for printing a complete table of correspondance
-	findedDepratment = askedDepartment(sys.argv[2]) # evaluating witch departement the user is searching and import on findedDepartment the whol information about it to be treated.
+        if len(sys.argv) > 2:
+        	findedDepratment = askedDepartment(sys.argv[2]) # evaluating witch departement the user is searching and import on findedDepartment the whol information about it to be treated.
+                isCodeOrNumberOrLitt = None
+        else:
+        	findedDepratment = askedDepartment(sys.argv[1]) # evaluating witch departement the user is searching and import on findedDepartment the whol information about it to be treated.
+                isCodeOrNumberOrLitt = codeOrNumberOrLitt(findedDepratment,sys.argv[1])
+
 
 	if findedDepratment:
 		if findedDepratment[0][0] in ("A", "U", "E", "I", "Y", "Î", "O"): #This test is for french syntax. Because in french languages, words begining by a voyel have to be preceded with “l’” and words  begining with a console, wave to be preced by noting.
@@ -208,17 +225,17 @@ else: # listing is for printing a complete table of correspondance
 			if findedDepratment[4] == "metropolitan-department":
 				print("Departement de {4}{0} en {1} de codes {2} (Réformé) et {3} (Insee).".format(bcolors.LITN + findedDepratment[0] + bcolors.ENDC, findedDepratment[3], bcolors.ADEP + findedDepratment[2] + bcolors.ENDC, findedDepratment[1], linguisticConjonction))
 
-			if findedDepratment[4] == "overseas-departments":
+			elif findedDepratment[4] == "overseas-departments":
 				print("Région et département d’Outre-mer de {4}{0} de codes {2} (ISO 3166-2:FR) et {3} (Insee).".format(bcolors.LITN + findedDepratment[0] + bcolors.ENDC, findedDepratment[3], bcolors.ADEP + findedDepratment[2] + bcolors.ENDC, findedDepratment[1], linguisticConjonction))
 				if findedDepratment[5]:
 					print "voir aussi", findedDepratment[5] + "."
 
-			if findedDepratment[4] == "overseas-collectivity":
+			elif findedDepratment[4] == "overseas-collectivity":
 				print("Territoire monodepartemental d’Outre-mer de {4}{0} de codes {2} (ISO 3166-2:FR) et {3} (Insee).".format(bcolors.LITN + findedDepratment[0] + bcolors.ENDC, findedDepratment[3], bcolors.ADEP + findedDepratment[2] + bcolors.ENDC, findedDepratment[1], linguisticConjonction))
 				if findedDepratment[5]:
 					print "voir aussi", findedDepratment[5] + "."
 
-			if findedDepratment[4] == "dependency":
+			elif findedDepratment[4] == "dependency":
 				print("Dépendance de {4}{0} de codes {2} (ISO 3166-2:FR) et {3} (Insee).".format(bcolors.LITN + findedDepratment[0] + bcolors.ENDC, findedDepratment[3], bcolors.ADEP + findedDepratment[2] + bcolors.ENDC, findedDepratment[1], linguisticConjonction))
 				if findedDepratment[5]:
 					print "voir aussi", findedDepratment[5] + "."
@@ -230,21 +247,22 @@ else: # listing is for printing a complete table of correspondance
 				if findedDepratment[4] == "overseas-departments":
 					print "une région mono-départementale d’outre mer."
 
-				if findedDepratment[4] == "overseas-collectivity":
+				elif findedDepratment[4] == "overseas-collectivity":
 					print "un département d’outre-mer non-régionnalisé."
 
-				if findedDepratment[4] == "dependency":
+				elif findedDepratment[4] == "dependency":
 					print "une dépendance non-régionnalisé."
 
-			if options.lit:
+			elif options.lit:
 				print bcolors.LITN + findedDepratment[0] + bcolors.ENDC,
-			if options.reg and findedDepratment[4] == "metropolitan-department":
+			elif options.reg and findedDepratment[4] == "metropolitan-department":
 				print findedDepratment[3],
 
-			if options.alpha:
+			elif (options.alpha) or ( (not (options.number and options.alpha and options.lit and options.reg and options.listing and options.verbos and options.vverbose) ) and (isCodeOrNumberOrLitt == 0) ):
 				print bcolors.ADEP + findedDepratment[2] + bcolors.ENDC,
-			if options.number:
+			elif (options.number) or ( (not (options.number and options.alpha and options.lit and options.reg and options.listing and options.verbos and options.vverbose) ) and (isCodeOrNumberOrLitt == 1) ):
 				print findedDepratment[1],
+
 	else:
 		print bcolors.WARNING + "*" + bcolors.ENDC,"No department match the name or code \"{0}\".".format(sys.argv[2])
 		sys.exit(1)
