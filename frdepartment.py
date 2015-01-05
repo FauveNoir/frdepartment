@@ -128,7 +128,8 @@ coresp = [
 ["Guadeloupe", "971", "GP", None, "overseas-departments", "ISO 3166-2:GP"],
 ["Martinique", "972", "MQ", None, "overseas-departments", "ISO 3166-2:MQ"],
 ["Réunion", "974", "RE", None, "overseas-departments", "ISO 3166-2:RE"],
-["Mayotte", "976", "YT", None, "overseas-departments", "ISO 3166-2:YT"]
+["Mayotte", "976", "YT", None, "overseas-departments", "ISO 3166-2:YT"],
+["Wallonie", None, "WL", None, "easter-egg"]
 ]
 
 usage = "usage: %prog [ [-n] [-a] [-l] [-r] ( NAME | NUMERICAL_CODE | ALPHBETIC_CODE ) | --list | -v | -vv ]"
@@ -162,7 +163,6 @@ def codeOrNumberOrLitt(aDepartment,numberOrCode):
 
 
 if len(sys.argv) < 2:
-        help
 	sys.exit(1)
 
 # teling the program with verbose is like telling it with -narl
@@ -213,8 +213,11 @@ else: # listing is for printing a complete table of correspondance
         	findedDepratment = askedDepartment(sys.argv[1]) # evaluating witch departement the user is searching and import on findedDepartment the whol information about it to be treated.
                 isCodeOrNumberOrLitt = codeOrNumberOrLitt(findedDepratment,sys.argv[1])
 
+	if findedDepratment[4] == "easter-egg":
+		print("IPoT n’étant pas implémenté sur ce système, frdepartment ne peut assurer que la Wallonie sera un département français.")
 
-	if findedDepratment:
+
+	elif findedDepratment:
 		if findedDepratment[0][0] in ("A", "U", "E", "I", "Y", "Î", "O"): #This test is for french syntax. Because in french languages, words begining by a voyel have to be preceded with “l’” and words  begining with a console, wave to be preced by noting.
 			linguisticConjonction = "l’"
 		else: # Other cases is a console.
