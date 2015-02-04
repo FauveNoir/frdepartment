@@ -12,5 +12,5 @@ This program also mainly provides the support of my own [reform](http://taniere.
 + `-l`,  `--litteral`   prints the full litteral name of the department
 + `-r`,  `--region`     prints the full name of the region witch the department is belonging
 + `--list`              shows a table of the departments with theres codes and exit
-+ `-v`,  `--verbose`    prints the whole information on the output (it's like -nalr)
++ `-v`,  `--verbose`    prints the whole information on the output (it's like `-nalr`)
 + `--vv`                prints the whole information in a litteral sentence
